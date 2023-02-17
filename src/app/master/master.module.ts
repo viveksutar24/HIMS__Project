@@ -9,6 +9,7 @@ import { StatesComponent } from './states/states.component';
 import { DistrictsComponent } from './districts/districts.component';
 import { TalukasComponent } from './talukas/talukas.component';
 import { TitlesComponent } from './titles/titles.component';
+import { UsersComponent } from './users/users.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { TitlesComponent } from './titles/titles.component';
         DistrictsComponent,
         TalukasComponent,
         TitlesComponent,
+        UsersComponent,
     ],
     imports: [
         CommonModule,

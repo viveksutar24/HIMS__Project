@@ -1,19 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/shared/api.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-titles',
-  templateUrl: './titles.component.html',
-  styleUrls: ['./titles.component.css']
+  selector: 'app-users',
+  templateUrl: './users.component.html',
+  styleUrls: ['./users.component.css']
 })
-export class TitlesComponent implements OnInit {
+export class UsersComponent {
 
   formdata: any;
   result: any;
   id = 0;
-
   constructor(private api: ApiService) { }
 
 
@@ -21,26 +20,30 @@ export class TitlesComponent implements OnInit {
 
 
     this.load()
-    this.formdata = new FormGroup({
-      name: new FormControl("", Validators.compose([Validators.required]))
-    })
-
   }
 
   load() {
     this.id = 0;
-    this.api.get("titles").subscribe((result: any) => {
+    this.api.get("users").subscribe((result: any) => {
       console.log(result);
       this.result = result.data;
     })
-  }
+    this.formdata = new FormGroup({
+      name: new FormControl("", Validators.compose([Validators.required])),
+      username: new FormControl("", Validators.compose([Validators.required])),
+      password: new FormControl("", Validators.compose([Validators.required])),
+    })
 
+  }
 
   edit(id: any) {
     this.id = id;
-    this.api.get("titles/" + id).subscribe((result: any) => {
+    this.api.get("users/" + id).subscribe((result: any) => {
+
       this.formdata = new FormGroup({
-        name: new FormControl(result.data.name, Validators.compose([Validators.required]))
+        name: new FormControl(result.data.name, Validators.compose([Validators.required])),
+        username: new FormControl(result.data.username, Validators.compose([Validators.required])),
+        password: new FormControl(result.data.password, Validators.compose([Validators.required])),
       })
     })
   }
@@ -66,9 +69,9 @@ export class TitlesComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
 
-      this.api.delete("titles/" + id).subscribe((result: any) => {
-        this.load()
-      })
+        this.api.delete("users/" + id).subscribe((result: any) => {
+          this.load()
+        })
         swalWithBootstrapButtons.fire(
           'Deleted!',
           'Your file has been deleted.',
@@ -89,14 +92,12 @@ export class TitlesComponent implements OnInit {
 
   }
 
+
+
+
   submit(data: any) {
     if (this.id == 0) {
 
-
-      this.api.post("titles", data).subscribe((result: any) => {
-        console.log(result);
-        this.load()
-      })
       Swal.fire({
         position: 'top-end',
         icon: 'success',
@@ -104,14 +105,22 @@ export class TitlesComponent implements OnInit {
         showConfirmButton: false,
         timer: 1500
       })
+      this.api.post("users", data).subscribe((result: any) => {
+        console.log(result);
+        this.load()
+      })
     }
     else (
 
-      this.api.put("titles/" + this.id, data).subscribe((result: any) => {
+      this.api.put("users/" + this.id, data).subscribe((result: any) => {
         console.log(result);
         this.load()
+
       })
     )
   }
 
 }
+
+
+

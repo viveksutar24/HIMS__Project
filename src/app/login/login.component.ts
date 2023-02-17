@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from '../shared/api.service';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -38,7 +38,13 @@ export class LoginComponent implements OnInit {
   }
 
   submit(data: any) {
+
     this.api.post("authentication/login", data).subscribe((result: any) => {
+
+      Swal.fire(
+        'Login Succesfully !!!',
+        'success'
+      )
       console.log(result);
       if(result.status == "failed"){
         this.message= result.data;
